@@ -177,6 +177,36 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   transition: color 220ms ease, background 220ms ease;
 }
 .close-wheel:hover { background: #202a3e; color: #e1e5ee; }
+.auto-toggle {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border: 1px solid #526582;
+  border-radius: 12px;
+  background: #151c2c;
+  color: #b7c4da;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.auto-toggle:hover { background: #202a3e; }
+.auto-toggle[aria-pressed="true"] {
+  background: #304566;
+  border-color: #adc2eb;
+  color: #fff;
+}
+.auto-icon {
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: url('assets/icons/8701477911543238916.svg') center / contain no-repeat;
+  -webkit-mask: url('assets/icons/8701477911543238916.svg') center / contain no-repeat;
+}
+.auto-state { font-size: 9px; line-height: 1; }
 .close-icon {
   width: 22px;
   height: 22px;

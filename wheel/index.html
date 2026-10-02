@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#101522" />
     <title>The Wheel of Colour</title>
-    <link rel="stylesheet" href="../styles.css?v=9" />
+    <link rel="stylesheet" href="../styles.css?v=10" />
     <script src="../stars.js?v=3" defer></script>
-    <script src="wheel.js?v=9" defer></script>
+    <script src="wheel.js?v=10" defer></script>
   </head>
   <body>
     <main class="focus-app">
@@ -24,6 +24,10 @@
       <a class="close-wheel" href="../#menu" aria-label="Back to game menu" title="Back to game menu">
         <span class="close-icon" aria-hidden="true"></span>
       </a>
+      <button class="auto-toggle" type="button" aria-label="Automatic wheel" aria-pressed="false" title="Automatic wheel: off">
+        <span class="auto-icon" aria-hidden="true"></span>
+        <span class="auto-state">off</span>
+      </button>
       <section class="wheel-screen" aria-label="the wheel of colour">
         <div class="colour-wheel" role="img" aria-label="Twelve transparent rectangles arranged like the hours on a clock"></div>
       </section>
