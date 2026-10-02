@@ -93,12 +93,70 @@ function advanceColour() {
   }
 }
 
-// Fixed lengths keep the starburst familiar while colours change each lap.
-const rayLengths = [32, 21, 28, 16, 30, 23, 18, 32, 22, 27, 16, 29,
-  23, 31, 18, 26, 32, 20, 28, 17, 25, 31, 19, 27];
+// Touch uses broad angular sectors, including the gaps between visible rays.
+let touchPointer = null;
+let lastTouchRay = null;
+
+function followTouch(event) {
+  const bounds = wheel.getBoundingClientRect();
+  const x = event.clientX - bounds.left - bounds.width / 2;
+  const y = event.clientY - bounds.top - bounds.height / 2;
+  const radius = Math.hypot(x, y) / bounds.width;
+  if (radius < 0.13 || radius > 0.55) {
+    clearActiveComponents();
+    lastTouchRay = null;
+    return;
+  }
+  const angle = (Math.atan2(y, x) + Math.PI / 2 + Math.PI * 2) % (Math.PI * 2);
+  const hour = Math.round(angle * componentCount / (Math.PI * 2)) % componentCount;
+  if (hour === lastTouchRay) return;
+  if (lastTouchRay !== null) {
+    const crossed = (hour - lastTouchRay + componentCount) % componentCount;
+    // Fill in rays skipped between touch samples during a clockwise swipe.
+    if (crossed <= componentCount / 2) {
+      for (let step = 1; step <= crossed; step += 1) {
+        activateComponent((lastTouchRay + step) % componentCount);
+      }
+    } else {
+      activateComponent(hour);
+    }
+  } else {
+    activateComponent(hour);
+  }
+  lastTouchRay = hour;
+}
+
+function endTouch() {
+  if (touchPointer === null) return;
+  const pointer = touchPointer;
+  touchPointer = null;
+  lastTouchRay = null;
+  clearActiveComponents();
+  if (wheel.hasPointerCapture(pointer)) wheel.releasePointerCapture(pointer);
+}
+
+wheel.addEventListener('pointerdown', event => {
+  if (event.pointerType === 'mouse' || !event.isPrimary || autoTimer !== null) return;
+  touchPointer = event.pointerId;
+  lastTouchRay = null;
+  wheel.setPointerCapture(touchPointer);
+  followTouch(event);
+});
+wheel.addEventListener('pointermove', event => {
+  if (event.pointerId === touchPointer) followTouch(event);
+});
+for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+  wheel.addEventListener(type, event => {
+    if (event.pointerId === touchPointer) endTouch();
+  });
+}
+
+// A repeating long-short rhythm gives the sunburst sixfold symmetry.
+const rayLengths = Array.from({ length: 24 }, (_, hour) => [34, 23, 30, 23][hour % 4]);
 
 // Start at midnight and rebuild the starburst when switching modes.
 function buildWheel(count) {
+  endTouch();
   componentCount = count;
   nextComponent = 0;
   lastComponent = null;
@@ -114,29 +172,27 @@ function buildWheel(count) {
     component.style.left = `${50 + Math.cos(angle) * 16}%`;
     component.style.top = `${50 + Math.sin(angle) * 16}%`;
     component.style.setProperty('--ray-angle', `${angle}rad`);
-    component.style.width = `${rayLengths[hour] * 1.1}%`;
+    component.style.width = `${rayLengths[hour]}%`;
     const ray = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     ray.setAttribute('viewBox', '0 0 100 24');
     ray.setAttribute('preserveAspectRatio', 'none');
     ray.setAttribute('aria-hidden', 'true');
     const shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    const outlines = [
-      '0,10 48,7 91,1 100,5 96,23 53,17 0,14',
-      '0,10 58,6 97,1 93,9 100,20 62,18 0,14',
-      '0,10 43,8 94,1 100,16 90,23 47,16 0,14',
-    ];
-    shape.setAttribute('points', outlines[hour % outlines.length]);
+    // Long rays have pointed tips; short rays have bevelled shoulders.
+    shape.setAttribute('points', hour % 2 === 0
+      ? '0,9 91,1 100,12 91,23 0,15'
+      : '0,9 93,1 100,5 100,19 93,23 0,15');
     shape.setAttribute('vector-effect', 'non-scaling-stroke');
     ray.append(shape);
     component.append(ray);
     component.addEventListener('animationend', () => {
       component.classList.remove('is-trailing', 'is-companion');
     });
-    component.addEventListener('pointerenter', () => {
-      if (autoTimer === null) activateComponent(hour);
+    component.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse' && autoTimer === null) activateComponent(hour);
     });
-    component.addEventListener('pointerleave', () => {
-      if (autoTimer === null) fadeComponent(component);
+    component.addEventListener('pointerleave', event => {
+      if (event.pointerType === 'mouse' && autoTimer === null) fadeComponent(component);
     });
     components.push(component);
     wheel.append(component);
