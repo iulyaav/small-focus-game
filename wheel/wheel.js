@@ -216,6 +216,6 @@ autoToggle.addEventListener('click', () => {
     autoTimer = null;
   }
   autoToggle.setAttribute('aria-pressed', String(enabled));
-  autoToggle.title = `Automatic wheel: ${enabled ? 'on' : 'off'}`;
+  autoToggle.title = `Automatic Colourful spiral: ${enabled ? 'on' : 'off'}`;
   autoToggle.querySelector('.auto-state').textContent = enabled ? 'on' : 'off';
 });

@@ -28,9 +28,8 @@ function leaveTwinkle(event) {
 if (window.location.hash === '#menu') {
   startScreen.hidden = true;
   menuScreen.hidden = false;
-} else {
-  window.addEventListener('pointermove', leaveTwinkle);
 }
+window.addEventListener('pointermove', leaveTwinkle);
 
 cards.forEach((card, index) => card.style.setProperty('--card-index', index));
 
@@ -52,17 +51,10 @@ function changeScreen(from, to, focusTarget) {
 
 startButton.addEventListener('click', () => {
   window.history.replaceState(null, '', '#menu');
-  window.removeEventListener('pointermove', leaveTwinkle);
   changeScreen(startScreen, menuScreen, backButton);
 });
 
 backButton.addEventListener('click', () => {
   window.history.replaceState(null, '', window.location.pathname + window.location.search);
   changeScreen(menuScreen, startScreen, startButton);
-  // Restore the mouse trail once the opening screen is visible again.
-  const delay = reducedMotion.matches ? 0 : 400;
-  window.setTimeout(() => {
-    trail.replaceChildren();
-    window.addEventListener('pointermove', leaveTwinkle);
-  }, delay);
 });

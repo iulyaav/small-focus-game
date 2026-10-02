@@ -5,25 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#101522" />
     <title>Small Focus Game</title>
-    <link rel="stylesheet" href="styles.css?v=10" />
+    <link rel="stylesheet" href="styles.css?v=19" />
     <script src="stars.js?v=3" defer></script>
-    <script src="app.js?v=3" defer></script>
+    <script src="app.js?v=4" defer></script>
   </head>
   <body>
     <main class="focus-app">
       <div class="star-field" aria-hidden="true"></div>
       <section class="start-screen" aria-label="Start">
-        <div class="twinkle-trail" aria-hidden="true"></div>
         <button class="start-button" type="button">start your focus</button>
       </section>
       <section class="menu-screen" aria-label="Game menu" hidden>
         <div class="game-grid">
-          <a class="game-card photo-card" href="wheel/" aria-label="the wheel of colour">
-            <img src="assets/juliana-malta-YBSszTBENNk-unsplash.jpg" alt="Colorful Ferris wheel against a blue sky" />
-            <span class="card-title">the wheel of colour</span>
+          <a class="game-card spiral-card" href="wheel/" aria-label="Colourful spiral">
+            <img class="menu-game-icon" src="assets/icons/6477916531645017243.svg" alt="" />
+            <span class="card-title">Colourful spiral</span>
           </a>
-          <div class="game-card empty-card" aria-hidden="true"></div>
-          <div class="game-card empty-card" aria-hidden="true"></div>
+          <a class="game-card planned-card" href="return-to-focus/">
+            <span class="planned-label">in planning</span>
+            <span class="card-title">return to focus</span>
+          </a>
+          <a class="game-card planned-card" href="grow-the-vine/">
+            <span class="planned-label">in planning</span>
+            <span class="card-title">grow the vine</span>
+          </a>
           <div class="game-card empty-card" aria-hidden="true"></div>
           <div class="game-card empty-card" aria-hidden="true"></div>
           <div class="game-card empty-card" aria-hidden="true"></div>
@@ -36,11 +41,12 @@
           <button class="credits-link" type="button">Credits</button>
         </div>
       </section>
+      <div class="twinkle-trail" aria-hidden="true"></div>
       <dialog class="credits-dialog" aria-labelledby="credits-title">
         <h2 id="credits-title">Credits</h2>
         <p>Colour palettes from <a href="https://coolors.co/palettes/popular">Coolors</a>.</p>
-        <p>Photo by Juliana Malta on <a href="https://unsplash.com">Unsplash</a>.</p>
         <p>Close and automatic-wheel icons by <a href="https://freeicons.io/profile/714">Raj Dev</a> on <a href="https://freeicons.io">freeicons.io</a>.</p>
+        <p>Spiral icon by <a href="https://freeicons.io/profile/5790">ColourCreatype</a> on <a href="https://freeicons.io">freeicons.io</a>.</p>
         <form method="dialog">
           <button class="back-button" type="submit">close</button>
         </form>
