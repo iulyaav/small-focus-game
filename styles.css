@@ -17,10 +17,44 @@ button { font: inherit; }
   padding: 48px;
 }
 
-.start-screen { transition: opacity 400ms ease; }
-.start-screen.is-leaving { opacity: 0; }
+.start-screen, .menu-screen { position: relative; transition: opacity 400ms ease; }
+.star-field, .twinkle-trail {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #d2def8;
+  box-shadow: 0 0 7px #bbd2ff55;
+  opacity: .25;
+  animation: star-blink var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+.twinkle {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  background: #dce7ff;
+  clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  animation: trail-fade 800ms ease-out forwards;
+}
+@keyframes star-blink {
+  0%, 100% { opacity: .15; transform: scale(.8); }
+  50% { opacity: .8; transform: scale(1.15); }
+}
+@keyframes trail-fade {
+  from { opacity: .85; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  to { opacity: 0; transform: translate(-50%, calc(-50% + 16px)) scale(.2) rotate(45deg); }
+}
+.start-screen.is-leaving, .menu-screen.is-leaving { opacity: 0; }
 
 .start-button {
+  position: relative;
   border: 0;
   border-radius: 18px;
   padding: 20px 28px;
@@ -37,6 +71,20 @@ button { font: inherit; }
 button:focus-visible { outline: 2px solid #adc2eb; outline-offset: 7px; }
 
 .menu-screen { width: min(100%, 1100px); }
+.back-button {
+  display: block;
+  margin: 24px auto 0;
+  padding: 9px 14px;
+  border: 1px solid #526582;
+  border-radius: 12px;
+  background: #151c2c;
+  color: #b7c4da;
+  font-size: 13px;
+  cursor: pointer;
+  animation: fade-in 650ms ease both;
+  transition: background 220ms ease, color 220ms ease;
+}
+.back-button:hover { background: #202a3e; color: #e1e5ee; }
 .game-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
