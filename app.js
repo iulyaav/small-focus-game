@@ -3,21 +3,8 @@ const startButton = document.querySelector('.start-button');
 const menuScreen = document.querySelector('.menu-screen');
 const backButton = document.querySelector('.back-button');
 const cards = document.querySelectorAll('.game-card');
-const starField = document.querySelector('.star-field');
 const trail = document.querySelector('.twinkle-trail');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-// Vary each star's position and rhythm so the sky never blinks in unison.
-for (let index = 0; index < 65; index += 1) {
-  const star = document.createElement('span');
-  star.className = 'star';
-  star.style.left = `${Math.random() * 100}%`;
-  star.style.top = `${Math.random() * 100}%`;
-  star.style.setProperty('--size', `${1 + Math.random() * 2}px`);
-  star.style.setProperty('--duration', `${3 + Math.random() * 5}s`);
-  star.style.setProperty('--delay', `${-Math.random() * 8}s`);
-  starField.append(star);
-}
 
 let lastTwinkleTime = 0;
 function leaveTwinkle(event) {
@@ -34,11 +21,17 @@ function leaveTwinkle(event) {
   trail.append(twinkle);
   window.setTimeout(() => twinkle.remove(), 800);
 }
-window.addEventListener('pointermove', leaveTwinkle);
+if (window.location.hash === '#menu') {
+  startScreen.hidden = true;
+  menuScreen.hidden = false;
+} else {
+  window.addEventListener('pointermove', leaveTwinkle);
+}
 
 cards.forEach((card, index) => card.style.setProperty('--card-index', index));
 
 function changeScreen(from, to, focusTarget) {
+  if (from.classList.contains('is-leaving')) return;
   startButton.disabled = true;
   backButton.disabled = true;
   from.classList.add('is-leaving');
@@ -54,11 +47,13 @@ function changeScreen(from, to, focusTarget) {
 }
 
 startButton.addEventListener('click', () => {
+  window.history.replaceState(null, '', '#menu');
   window.removeEventListener('pointermove', leaveTwinkle);
   changeScreen(startScreen, menuScreen, backButton);
 });
 
 backButton.addEventListener('click', () => {
+  window.history.replaceState(null, '', window.location.pathname + window.location.search);
   changeScreen(menuScreen, startScreen, startButton);
   // Restore the mouse trail once the opening screen is visible again.
   const delay = reducedMotion.matches ? 0 : 400;

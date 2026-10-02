@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#101522" />
     <title>Small Focus Game</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="stars.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -17,9 +18,10 @@
       </section>
       <section class="menu-screen" aria-label="Game menu" hidden>
         <div class="game-grid">
-          <button class="game-card photo-card" type="button" aria-label="Ferris wheel game preview" aria-disabled="true">
+          <a class="game-card photo-card" href="wheel/" aria-label="the wheel of colour">
             <img src="assets/juliana-malta-YBSszTBENNk-unsplash.jpg" alt="Colorful Ferris wheel against a blue sky" />
-          </button>
+            <span class="card-title">the wheel of colour</span>
+          </a>
           <div class="game-card empty-card" aria-hidden="true"></div>
           <div class="game-card empty-card" aria-hidden="true"></div>
           <div class="game-card empty-card" aria-hidden="true"></div>
