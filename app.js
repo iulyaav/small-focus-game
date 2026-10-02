@@ -5,6 +5,10 @@ const backButton = document.querySelector('.back-button');
 const cards = document.querySelectorAll('.game-card');
 const trail = document.querySelector('.twinkle-trail');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const creditsDialog = document.querySelector('.credits-dialog');
+document.querySelector('.credits-link').addEventListener('click', () => {
+  creditsDialog.showModal();
+});
 
 let lastTwinkleTime = 0;
 function leaveTwinkle(event) {

@@ -149,16 +149,34 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   mask: url('assets/icons/5299154331543238955.svg') center / contain no-repeat;
   -webkit-mask: url('assets/icons/5299154331543238955.svg') center / contain no-repeat;
 }
-.icon-credit {
-  position: fixed;
-  bottom: 12px;
-  left: 16px;
-  right: 16px;
-  text-align: center;
+.credits-link {
+  display: block;
+  margin: 12px auto 0;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   color: #93a2ba;
-  font-size: 11px;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
-.icon-credit a { color: inherit; }
+.credits-link:hover { color: #e1e5ee; }
+.credits-dialog {
+  width: min(420px, calc(100% - 48px));
+  padding: 28px;
+  border: 1px solid #526582;
+  border-radius: 20px;
+  background: #151c2c;
+  color: #e1e5ee;
+  text-align: center;
+  animation: fade-in 250ms ease both;
+}
+.credits-dialog::backdrop { background: #080d18bb; }
+.credits-dialog h2 { margin: 0 0 24px; font-weight: 400; }
+.credits-dialog p { line-height: 1.6; font-size: 14px; }
+.credits-dialog a { color: #adc2eb; }
 .colour-wheel {
   position: relative;
   width: min(70vw, 65svh, 520px);
