@@ -249,19 +249,47 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
 }
 .wheel-component {
   position: absolute;
-  width: 44px;
-  height: 44px;
-  transform: translate(-50%, -50%);
-  border: 1px solid #a4b9db55;
-  border-radius: 12px;
-  background: transparent;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  height: min(24px, 4.6%);
+  transform: translateY(-50%) rotate(var(--ray-angle));
+  transform-origin: left center;
 }
-.wheel-component.is-active {
-  transform: translate(-50%, -50%) scale(1.18);
-  background: var(--active-colour);
-  border-color: var(--active-colour);
-  box-shadow: 0 0 20px var(--active-colour);
+.wheel-component svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  transition: filter 180ms ease;
+}
+.wheel-component polygon {
+  fill: #a4b9db14;
+  stroke: #a4b9db55;
+  stroke-width: 1;
+  stroke-linejoin: miter;
+  transition: fill 180ms ease, stroke 180ms ease;
+}
+.wheel-component::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+.wheel-component.is-active polygon {
+  fill: var(--active-colour);
+  stroke: var(--active-colour);
+}
+.wheel-component.is-active svg {
+  filter: drop-shadow(0 0 8px var(--active-colour));
+}
+
+.wheel-component.is-trailing polygon {
+  animation: ray-trail 700ms ease-out forwards;
+}
+.wheel-component.is-companion polygon {
+  animation: ray-trail 950ms ease-out forwards;
+}
+@keyframes ray-trail {
+  from { fill: var(--active-colour); stroke: var(--active-colour); }
+  to { fill: #a4b9db14; stroke: #a4b9db55; }
 }
 
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
