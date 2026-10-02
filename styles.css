@@ -1,0 +1,84 @@
+:root {
+  color-scheme: dark;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #101522;
+  color: #e1e5ee;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+button { font: inherit; }
+[hidden] { display: none !important; }
+
+.focus-app {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 48px;
+}
+
+.start-screen { transition: opacity 400ms ease; }
+.start-screen.is-leaving { opacity: 0; }
+
+.start-button {
+  border: 0;
+  border-radius: 18px;
+  padding: 20px 28px;
+  background: transparent;
+  color: inherit;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 300;
+  letter-spacing: .025em;
+  cursor: pointer;
+  animation: fade-in 650ms ease both;
+  transition: color 250ms ease, background 250ms ease;
+}
+.start-button:hover { color: #fff; background: #ffffff04; }
+button:focus-visible { outline: 2px solid #adc2eb; outline-offset: 7px; }
+
+.menu-screen { width: min(100%, 1100px); }
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 4vw, 52px);
+}
+.game-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.72;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 20px;
+  background: #151c2c;
+  animation: fade-in 650ms ease both;
+  animation-delay: calc(var(--card-index, 0) * 45ms);
+}
+.game-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid #526582;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-width 220ms ease, border-color 220ms ease;
+}
+.game-card:hover::after,
+.game-card:focus-visible::after { border-width: 3px; border-color: #a4b9db; }
+.game-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 48%; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 700px) {
+  .focus-app { padding: 28px; }
+  .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .game-card { border-radius: 15px; }
+}
+@media (max-width: 420px) {
+  .focus-app { padding: 24px; }
+  .game-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::after { animation: none !important; transition: none !important; }
+}

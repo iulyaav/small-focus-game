@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101522" />
+    <title>Small Focus Game</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="focus-app">
+      <section class="start-screen" aria-label="Start">
+        <button class="start-button" type="button">start your focus</button>
+      </section>
+      <section class="menu-screen" aria-label="Game menu" hidden>
+        <div class="game-grid">
+          <button class="game-card photo-card" type="button" aria-label="Ferris wheel game preview" aria-disabled="true">
+            <img src="assets/juliana-malta-YBSszTBENNk-unsplash.jpg" alt="Colorful Ferris wheel against a blue sky" />
+          </button>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+          <div class="game-card empty-card" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
