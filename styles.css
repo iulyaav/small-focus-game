@@ -219,19 +219,19 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
 }
 .wheel-component {
   position: absolute;
-  width: 10%;
-  height: 7%;
+  width: 44px;
+  height: 44px;
   transform: translate(-50%, -50%);
   border: 1px solid #a4b9db55;
-  border-radius: 6px;
+  border-radius: 12px;
   background: transparent;
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 .wheel-component.is-active {
   transform: translate(-50%, -50%) scale(1.18);
-  background: #e74b55;
-  border-color: #ff8990;
-  box-shadow: 0 0 20px #e74b5555;
+  background: var(--active-colour);
+  border-color: var(--active-colour);
+  box-shadow: 0 0 20px var(--active-colour);
 }
 
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
