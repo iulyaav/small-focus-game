@@ -183,7 +183,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   transition: color 220ms ease, background 220ms ease;
 }
 .close-wheel:hover { background: #202a3e; color: #e1e5ee; }
-.auto-toggle {
+.auto-toggle, .score-toggle {
   position: fixed;
   top: 80px;
   right: 24px;
@@ -199,8 +199,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   cursor: pointer;
   transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
 }
-.auto-toggle:hover { background: #202a3e; }
-.auto-toggle[aria-pressed="true"] {
+.auto-toggle:hover, .score-toggle:hover { background: #202a3e; }
+.auto-toggle[aria-pressed="true"], .score-toggle[aria-pressed="true"] {
   background: #304566;
   border-color: #adc2eb;
   color: #fff;
@@ -212,7 +212,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   mask: url('assets/icons/8701477911543238916.svg') center / contain no-repeat;
   -webkit-mask: url('assets/icons/8701477911543238916.svg') center / contain no-repeat;
 }
-.auto-state { font-size: 9px; line-height: 1; }
+.auto-state, .score-state { font-size: 9px; line-height: 1; }
+.score-toggle { top: 136px; }
+.score-icon {
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: url('assets/icons/2177044471543238929.svg') center / contain no-repeat;
+  -webkit-mask: url('assets/icons/2177044471543238929.svg') center / contain no-repeat;
+}
+.spin-counter[hidden] { display: none; }
 .close-icon {
   width: 22px;
   height: 22px;
@@ -268,6 +277,26 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
   border-radius: 50%;
   pointer-events: none;
 }
+.spin-counter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 21%;
+  height: 15%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.spin-counter svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.spin-counter path {
+  fill: none;
+  stroke: #c9aa6b99;
+  stroke-width: 1.2;
+  stroke-linejoin: miter;
+}
 .wheel-component {
   position: absolute;
   height: min(24px, 4.6%);
@@ -292,7 +321,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #adc2eb; outline-offs
 .wheel-component::after {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: -5px -20px -5px -5px;
 }
 .wheel-component.is-active polygon {
   fill: var(--active-colour);

@@ -39,6 +39,60 @@ let autoTimer = null;
 let stepsUntilPair = 6 + Math.floor(Math.random() * 5);
 const fadingComponents = [];
 
+// Geometric outlined numerals with bevelled corners, drawn locally as SVG.
+const numeralPaths = [
+  'M8 3H26L32 9V51L26 57H8L2 51V9ZM11 12V48H23V12Z',
+  'M5 13L16 3H24V48H31V57H4V48H15V16L11 20Z',
+  'M2 9L8 3H26L32 9V25L11 43V48H32V57H2V39L23 21V12H11V20H2Z',
+  'M2 3H26L32 9V24L26 30L32 36V51L26 57H2V48H23V35H10V25H23V12H2Z',
+  'M19 3H30V57H21V36H2V27ZM21 16L11 27H21Z',
+  'M2 3H32V12H11V25H26L32 31V51L26 57H2V48H23V34H2Z',
+  'M8 3H31V12H11V25H26L32 31V51L26 57H8L2 51V9ZM11 34V48H23V34Z',
+  'M2 3H32V12L16 57H6L22 12H2Z',
+  'M8 3H26L32 9V24L26 30L32 36V51L26 57H8L2 51V36L8 30L2 24V9ZM11 12V25H23V12ZM11 35V48H23V35Z',
+  'M8 3H26L32 9V51L26 57H3V48H23V35H8L2 29V9ZM11 12V26H23V12Z',
+];
+let completedSpins = 0;
+const spinCounter = document.createElement('output');
+spinCounter.className = 'spin-counter';
+spinCounter.id = 'spin-counter';
+spinCounter.hidden = true;
+const scoreToggle = document.querySelector('.score-toggle');
+scoreToggle.addEventListener('click', () => {
+  const enabled = spinCounter.hidden;
+  spinCounter.hidden = !enabled;
+  counterAnimation?.cancel();
+  scoreToggle.setAttribute('aria-pressed', String(enabled));
+  scoreToggle.title = `Score: ${enabled ? 'on' : 'off'}`;
+  scoreToggle.querySelector('.score-state').textContent = enabled ? 'on' : 'off';
+});
+let counterAnimation = null;
+
+function renderSpinCounter(pop = false) {
+  const digits = String(completedSpins);
+  spinCounter.setAttribute('aria-label', `${completedSpins} completed spins`);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${digits.length * 40 - 6} 60`);
+  svg.setAttribute('aria-hidden', 'true');
+  for (let index = 0; index < digits.length; index += 1) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', numeralPaths[Number(digits[index])]);
+    path.setAttribute('transform', `translate(${index * 40} 0)`);
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
+    svg.append(path);
+  }
+  spinCounter.replaceChildren(svg);
+  if (pop && !spinCounter.hidden && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    counterAnimation?.cancel();
+    counterAnimation = spinCounter.animate([
+      { transform: 'translate(-50%, -50%) scale(1)' },
+      { transform: 'translate(-50%, -50%) scale(1.25)', offset: 0.3 },
+      { transform: 'translate(-50%, -50%) scale(1)' },
+    ], { duration: 420, easing: 'ease-out' });
+  }
+}
+renderSpinCounter();
+
 function fadeComponent(component) {
   if (!component.classList.contains('is-active')) return;
   component.classList.remove('is-active');
@@ -61,6 +115,8 @@ function activateComponent(hour) {
   if (hour !== nextComponent) return;
   // Each new lap uses a different palette; revisiting the top keeps its colour.
   if (hour === 0 && lastComponent !== null) {
+    completedSpins += 1;
+    renderSpinCounter(true);
     const offset = 1 + Math.floor(Math.random() * (palettes.length - 1));
     paletteIndex = (paletteIndex + offset) % palettes.length;
     nextColour = 0;
@@ -104,7 +160,7 @@ function followTouch(event) {
   const x = event.clientX - bounds.left - bounds.width / 2;
   const y = event.clientY - bounds.top - bounds.height / 2;
   const radius = Math.hypot(x, y) / bounds.width;
-  if (radius < 0.13 || radius > 0.55) {
+  if (radius < 0.13 || radius > 0.60) {
     clearActiveComponents();
     lastTouchRay = null;
     return;
@@ -154,7 +210,7 @@ for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
 }
 
 // A repeating long-short rhythm gives the sunburst sixfold symmetry.
-const rayLengths = Array.from({ length: 24 }, (_, hour) => [34, 23, 30, 23][hour % 4]);
+const rayLengths = Array.from({ length: 24 }, (_, hour) => [37, 26, 33, 26][hour % 4]);
 
 // Start at midnight and rebuild the starburst when switching modes.
 function buildWheel(count) {
@@ -165,7 +221,7 @@ function buildWheel(count) {
   fadingComponents.length = 0;
   stepsUntilPair = 6 + Math.floor(Math.random() * 5);
   components.length = 0;
-  wheel.replaceChildren();
+  wheel.replaceChildren(spinCounter);
   wheel.setAttribute('aria-label', `${count} rays of different lengths radiating from an open centre`);
   for (let hour = 0; hour < componentCount; hour += 1) {
     const angle = hour * Math.PI * 2 / componentCount - Math.PI / 2;

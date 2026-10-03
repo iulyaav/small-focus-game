@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#101522" />
     <title>Colourful spiral</title>
-    <link rel="stylesheet" href="../styles.css?v=19" />
+    <link rel="stylesheet" href="../styles.css?v=23" />
     <script src="../stars.js?v=3" defer></script>
-    <script src="wheel.js?v=25" defer></script>
+    <script src="wheel.js?v=28" defer></script>
   </head>
   <body>
     <main class="focus-app">
@@ -28,8 +28,12 @@
         <span class="auto-icon" aria-hidden="true"></span>
         <span class="auto-state">off</span>
       </button>
+      <button class="score-toggle" type="button" aria-label="Show score" aria-pressed="false" aria-controls="spin-counter" title="Score: off">
+        <span class="score-icon" aria-hidden="true"></span>
+        <span class="score-state">off</span>
+      </button>
       <section class="wheel-screen" aria-label="Colourful spiral">
-        <div class="colour-wheel" role="img" aria-label="Twenty-four rays of different lengths radiating from an open centre"></div>
+        <div class="colour-wheel" role="group" aria-label="Twenty-four rays of different lengths radiating from an open centre"></div>
       </section>
     </main>
   </body>

@@ -24,4 +24,6 @@ The close and automatic progression SVGs are unchanged and displayed in a light 
 
 Spiral icon by [ColourCreatype](https://freeicons.io/profile/5790) on [freeicons.io](https://freeicons.io). Used on the Colourful spiral menu card (`assets/icons/6477916531645017243.svg`), with its original gradient colours.
 
+Score toggle icon (`assets/icons/2177044471543238929.svg`): Icon by <a class="link_pro" href="https://freeicons.io/business-and-online-icons/star-icon-icon-3">Raj Dev</a> on <a href="https://freeicons.io">freeicons.io</a>. Used to show or hide the spin counter.
+
 All credits are also accessible through the Credits link in the game menu.
